@@ -9,6 +9,10 @@ const app = express();
 app.use(express.json())
 app.use(cookieParser())
 
+app.get("/",(req,res) => {
+    res.send("Service is up and running")
+})
+
 // user routes
 app.use("/auth", authRoutes)
 app.use("/accounts", accountRoutes)
