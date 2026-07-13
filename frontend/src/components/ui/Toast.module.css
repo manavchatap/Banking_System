@@ -1,0 +1,58 @@
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 280px;
+  max-width: 420px;
+  animation: slideIn 0.3s ease-out;
+  border: 1px solid transparent;
+}
+
+.success {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: var(--success);
+}
+.error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: var(--danger);
+}
+.warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: var(--warning);
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.message {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray-800);
+}
+
+.close {
+  background: none;
+  border: none;
+  color: var(--gray-400);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+.close:hover {
+  color: var(--gray-600);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}

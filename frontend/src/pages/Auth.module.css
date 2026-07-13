@@ -1,0 +1,186 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* Left panel */
+.leftPanel {
+  flex: 0 0 400px;
+  background: var(--gray-900);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.leftPanel::after {
+  content: '';
+  position: absolute;
+  bottom: -120px;
+  right: -120px;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: rgba(30, 64, 175, 0.12);
+  pointer-events: none;
+}
+
+.brandBlock {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brandIcon {
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.brandName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.heroText { flex: 1; }
+
+.heroText h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin-bottom: 14px;
+}
+
+.heroText p {
+  font-size: 0.9375rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.65;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding-bottom: 8px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.55);
+  font-weight: 400;
+}
+
+.featureDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(96, 165, 250, 0.7);
+  flex-shrink: 0;
+}
+
+/* Form panel */
+.formPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background: var(--gray-50);
+}
+
+.formCard {
+  width: 100%;
+  max-width: 420px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+  animation: fadeIn 0.25s ease-out;
+}
+
+.formHeader { margin-bottom: 26px; }
+
+.formHeader h2 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  letter-spacing: -0.02em;
+  margin-bottom: 3px;
+}
+
+.formHeader p {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.showPwd {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  padding: 0;
+  margin-top: 4px;
+  font-family: inherit;
+  transition: color 0.12s;
+}
+.showPwd:hover { color: var(--accent); }
+
+.errorAlert {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  font-size: 0.8375rem;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+.switchAuth {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.875rem;
+  color: var(--gray-500);
+}
+
+.link { color: var(--accent); font-weight: 600; }
+.link:hover { text-decoration: underline; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 860px) {
+  .leftPanel { display: none; }
+}
+
+@media (max-width: 480px) {
+  .formCard { padding: 28px 20px; border-radius: var(--radius); }
+  .formPanel { padding: 24px 16px; }
+}
