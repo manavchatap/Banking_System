@@ -158,7 +158,7 @@ async function createInitialFundsTransaction (req,res) {
             message : "Only system users can create initial transactions",
             status : "Failed"
         })
-    }
+    } 
 
     const toUserAccount = await accountModel.findOne({ 
         _id: toAccount
@@ -167,6 +167,12 @@ async function createInitialFundsTransaction (req,res) {
     if(!toUserAccount) {
         return res.status(400).json({
             message : "Invalid toAccount"
+        })
+    }
+
+    if (toUserAccount.status !== "ACTIVE") {
+        return res.status(400).json({
+            message : "Cannot add funds to a non-active account"
         })
     }
 
