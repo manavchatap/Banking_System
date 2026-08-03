@@ -128,6 +128,8 @@ async function createTransaction (req,res) {
         const senderUser = await userModel.findById(fromUserAccount.user).select("email name")
         const receiverUser = await userModel.findById(toUserAccount.user).select("email name")
 
+        console.log("Sending emails to:", senderUser?.email, receiverUser?.email)
+
         const fmt = (n) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(n)
         const date = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
 
