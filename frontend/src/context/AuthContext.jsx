@@ -14,10 +14,10 @@ function parseStored() {
 }
 
 async function detectSystemUser() {
-  // Use native fetch — completely bypasses the axios interceptor
-  // A 401 here must never trigger window.location.href redirect
+  // Use the full backend URL — relative /api only works in dev (Vite proxy)
+  const baseURL = import.meta.env.VITE_API_URL || ''
   try {
-    const res = await fetch('/api/auth/register', {
+    const res = await fetch(`${baseURL}/auth/register`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
