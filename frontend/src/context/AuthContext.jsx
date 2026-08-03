@@ -13,22 +13,6 @@ function parseStored() {
   }
 }
 
-async function detectSystemUser() {
-  // Use the full backend URL — relative /api only works in dev (Vite proxy)
-  const baseURL = import.meta.env.VITE_API_URL || ''
-  try {
-    const res = await fetch(`${baseURL}/auth/register`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({}),
-    })
-    return res.status === 400
-  } catch {
-    return false
-  }
-}
-
 export function AuthProvider({ children }) {
   const initial = parseStored()
   const [user, setUser]               = useState(initial.user)
@@ -43,7 +27,7 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const { data } = await api.post('/auth/login', { email, password })
-    const sysUser = await detectSystemUser()
+    const sysUser = data.systemUser === true
     _persist(data, sysUser)
     return { ...data, isSystemUser: sysUser }
   }

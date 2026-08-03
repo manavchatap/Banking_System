@@ -85,10 +85,14 @@ async function userLoginController (req,res) {
         maxAge   : 3 * 24 * 60 * 60 * 1000  // 3 days in ms
     })
 
+    // Fetch systemUser flag explicitly
+    const fullUser = await userModel.findById(user._id).select("+systemUser")
+
     res.status(200).json({
-        _id   : user._id,
-        email : user.email,
-        name  : user.name
+        _id        : user._id,
+        email      : user.email,
+        name       : user.name,
+        systemUser : fullUser.systemUser || false
     })
 }
 
