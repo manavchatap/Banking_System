@@ -86,7 +86,7 @@ export default function ForgotPassword() {
       <div className={styles.leftPanel}>
         <div className={styles.brandBlock}>
           <div className={styles.brandIcon}><Landmark size={28} /></div>
-          <h1 className={styles.brandName}>NexaBank</h1>
+          <h1 className={styles.brandName}>MyBank</h1>
         </div>
         <div className={styles.heroText}>
           <h2>Reset your<br />password</h2>

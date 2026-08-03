@@ -32,8 +32,8 @@ async function userRegisterController (req,res) {
         await transporter.sendMail({
             from : process.env.EMAIL_USER,
             to : email,
-            subject : "Welcome to NexaBank",
-            text : `Hi ${name}, your NexaBank account has been created. You can now log in at the banking portal.`
+            subject : "Welcome to MyBank",
+            text : `Hi ${name}, your MyBank account has been created. You can now log in at the banking portal.`
         })
     } catch (mailErr) {
         console.error("Welcome email failed:", mailErr.message)
@@ -135,7 +135,7 @@ async function forgotPasswordController(req, res) {
         await transporter.sendMail({
             from    : process.env.EMAIL_USER,
             to      : email,
-            subject : "NexaBank — Password Reset OTP",
+            subject : "MyBank — Password Reset OTP",
             text    : `Your OTP for password reset is: ${otp}\n\nThis OTP expires in 5 minutes.\n\nIf you did not request this, please ignore this email.`
         })
     } catch (mailErr) {

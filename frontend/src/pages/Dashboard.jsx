@@ -332,10 +332,10 @@ export default function Dashboard() {
           {/* About */}
           <Card>
             <CardHeader>
-              <CardTitle>About NexaBank</CardTitle>
+              <CardTitle>About MyBank</CardTitle>
             </CardHeader>
             <p className={styles.aboutText}>
-              NexaBank is a secure digital banking platform built on a
+              MyBank is a secure digital banking platform built on a
               double-entry ledger architecture. Every transaction is atomic —
               funds are either fully transferred or not at all, ensuring your
               balance is always accurate.

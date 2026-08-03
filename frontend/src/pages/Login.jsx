@@ -44,7 +44,7 @@ export default function Login() {
           <div className={styles.brandIcon}>
             <Landmark size={28} />
           </div>
-          <h1 className={styles.brandName}>NexaBank</h1>
+          <h1 className={styles.brandName}>MyBank</h1>
         </div>
         <div className={styles.heroText}>
           <h2>Secure & modern<br />personal banking</h2>

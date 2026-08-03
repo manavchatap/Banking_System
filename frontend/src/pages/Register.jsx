@@ -56,7 +56,7 @@ export default function Register() {
           <div className={styles.brandIcon}>
             <Landmark size={28} />
           </div>
-          <h1 className={styles.brandName}>NexaBank</h1>
+          <h1 className={styles.brandName}>MyBank</h1>
         </div>
         <div className={styles.heroText}>
           <h2>Start your banking<br />journey today</h2>
@@ -76,7 +76,7 @@ export default function Register() {
         <div className={styles.formCard}>
           <div className={styles.formHeader}>
             <h2>Create account</h2>
-            <p>Join NexaBank — it's free</p>
+            <p>Join MyBank — it's free</p>
           </div>
 
           <form onSubmit={handleSubmit} noValidate>

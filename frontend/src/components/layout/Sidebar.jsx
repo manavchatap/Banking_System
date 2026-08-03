@@ -34,7 +34,7 @@ export default function Sidebar({ onClose }) {
       <div className={styles.brand}>
         <div className={styles.brandIcon}><Landmark size={18} /></div>
         <div>
-          <span className={styles.brandName}>NexaBank</span>
+          <span className={styles.brandName}>MyBank</span>
           <span className={styles.brandTag}>
             {isSystemUser ? 'System Admin' : 'Personal Banking'}
           </span>

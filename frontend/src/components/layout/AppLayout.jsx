@@ -39,7 +39,7 @@ export default function AppLayout() {
           >
             {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
-          <span className={styles.mobileTitle}>NexaBank</span>
+          <span className={styles.mobileTitle}>MyBank</span>
         </header>
 
         <main className={styles.content}>
