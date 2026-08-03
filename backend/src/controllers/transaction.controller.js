@@ -121,22 +121,8 @@ async function createTransaction (req,res) {
         const completedTransaction = await transactionModel.findById(createdTransaction._id).session(session)
 
         // 9. commit mongodb session
-        await session.commitTransaction() // commit the transaction if all operations are successful
-        session.endSession() // end the session
-
-        res.status(201).json({
-            message : "Transaction completed successfully",
-            status : "Success",
-            data : completedTransaction
-        })  
-
-    }catch(error){
-        await session.abortTransaction()
+        await session.commitTransaction()
         session.endSession()
-        res.status(400).json({
-            message : "Transaction is pending due to some issue, please retry after some time."
-        })
-    }
 
         // 10. send email notification to both sender and receiver (fire and forget)
         const senderUser = await userModel.findById(fromUserAccount.user).select("email name")
@@ -162,6 +148,20 @@ async function createTransaction (req,res) {
                 text    : `Dear ${receiverUser.name},\n\nYour account has been credited with ${fmt(amount)} on ${date}.\n\nAccount: ···${toUserAccount._id.toString().slice(-8).toUpperCase()}\nAmount Credited: ${fmt(amount)}\n\nThank you for banking with MyBank.`
             }).catch(err => console.error("Credit email failed:", err.message))
         }
+
+        res.status(201).json({
+            message : "Transaction completed successfully",
+            status : "Success",
+            data : completedTransaction
+        })
+
+    }catch(error){
+        await session.abortTransaction()
+        session.endSession()
+        res.status(400).json({
+            message : "Transaction is pending due to some issue, please retry after some time."
+        })
+    }
 
 }
 
