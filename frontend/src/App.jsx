@@ -24,6 +24,13 @@ function AdminRoute({ children }) {
   return children
 }
 
+// Accessible to both regular users and system users
+function AnyAuthRoute({ children }) {
+  const { user } = useAuth()
+  if (!user) return <Navigate to="/login" replace />
+  return children
+}
+
 export default function App() {
   return (
     <AuthProvider>
@@ -37,7 +44,7 @@ export default function App() {
             <Route path="/dashboard"    element={<UserRoute><Dashboard /></UserRoute>} />
             <Route path="/accounts"     element={<UserRoute><Accounts /></UserRoute>} />
             <Route path="/transfer"     element={<UserRoute><Transfer /></UserRoute>} />
-            <Route path="/transactions" element={<UserRoute><Transactions /></UserRoute>} />
+            <Route path="/transactions" element={<AnyAuthRoute><Transactions /></AnyAuthRoute>} />
 
             <Route path="/admin"          element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             <Route path="/admin/accounts" element={<AdminRoute><AdminAccounts /></AdminRoute>} />

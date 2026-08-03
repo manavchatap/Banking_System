@@ -14,8 +14,9 @@ const userNav = [
 ]
 
 const adminNav = [
-  { to: '/admin',         icon: ShieldCheck, label: 'Admin Panel'     },
-  { to: '/admin/accounts',icon: Users,       label: 'Accounts'    },
+  { to: '/admin',         icon: ShieldCheck, label: 'Admin Panel' },
+  { to: '/admin/accounts',icon: Users,       label: 'Accounts'   },
+  { to: '/transactions',  icon: History,     label: 'History'    },
 ]
 
 export default function Sidebar({ onClose }) {
