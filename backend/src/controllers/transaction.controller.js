@@ -262,6 +262,43 @@ async function createInitialFundsTransaction (req,res) {
 
 }
 
+// USER — get their own transaction history (debits + credits)
+async function getTransactionHistory(req, res) {
+    const account = await accountModel.findOne({ user: req.user._id })
+
+    if (!account) {
+        return res.status(404).json({ message: "No account found" })
+    }
+
+    // Get all transactions where this account is sender OR receiver
+    const transactions = await transactionModel
+        .find({
+            $or: [
+                { fromAccount: account._id },
+                { toAccount: account._id }
+            ]
+        })
+        .populate("fromAccount", "user")
+        .populate("toAccount", "user")
+        .sort({ createdAt: -1 })
+        .limit(50)
+
+    // Tag each transaction as DEBIT or CREDIT from this user's perspective
+    const history = transactions.map(tx => ({
+        _id           : tx._id,
+        type          : tx.fromAccount._id.toString() === account._id.toString() ? "DEBIT" : "CREDIT",
+        amount        : tx.amount,
+        status        : tx.status,
+        counterparty  : tx.fromAccount._id.toString() === account._id.toString()
+                        ? tx.toAccount._id
+                        : tx.fromAccount._id,
+        createdAt     : tx.createdAt,
+        idempotencyKey: tx.idempotencyKey,
+    }))
+
+    res.status(200).json({ history, accountId: account._id })
+}
+
 // SYSTEM USER — get all initial-funds transactions (from system account)
 async function getAllInitialFundsTransactions(req, res) {
     const systemAccount = await accountModel.findOne({ user: req.user._id })
@@ -305,4 +342,4 @@ async function getAllAccountsForAdmin(req, res) {
     res.status(200).json({ accounts: accountsWithBalance })
 }
 
-module.exports = { createTransaction, createInitialFundsTransaction, getAllInitialFundsTransactions, getAllAccountsForAdmin }
+module.exports = { createTransaction, createInitialFundsTransaction, getAllInitialFundsTransactions, getAllAccountsForAdmin, getTransactionHistory }

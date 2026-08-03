@@ -6,6 +6,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import Dashboard from './pages/Dashboard'
 import Accounts from './pages/Accounts'
 import Transfer from './pages/Transfer'
+import Transactions from './pages/Transactions'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminAccounts from './pages/admin/AdminAccounts'
 
@@ -33,9 +34,10 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
 
           <Route element={<AppLayout />}>
-            <Route path="/dashboard" element={<UserRoute><Dashboard /></UserRoute>} />
-            <Route path="/accounts"  element={<UserRoute><Accounts /></UserRoute>} />
-            <Route path="/transfer"  element={<UserRoute><Transfer /></UserRoute>} />
+            <Route path="/dashboard"    element={<UserRoute><Dashboard /></UserRoute>} />
+            <Route path="/accounts"     element={<UserRoute><Accounts /></UserRoute>} />
+            <Route path="/transfer"     element={<UserRoute><Transfer /></UserRoute>} />
+            <Route path="/transactions" element={<UserRoute><Transactions /></UserRoute>} />
 
             <Route path="/admin"          element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             <Route path="/admin/accounts" element={<AdminRoute><AdminAccounts /></AdminRoute>} />

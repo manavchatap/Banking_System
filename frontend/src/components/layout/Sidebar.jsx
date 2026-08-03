@@ -1,15 +1,16 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, CreditCard, ArrowRightLeft,
-  LogOut, Landmark, Users, ShieldCheck,
+  LogOut, Landmark, Users, ShieldCheck, History,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import styles from './Sidebar.module.css'
 
 const userNav = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/accounts',  icon: CreditCard,       label: 'Accounts'  },
-  { to: '/transfer',  icon: ArrowRightLeft,   label: 'Transfer'  },
+  { to: '/dashboard',    icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/accounts',     icon: CreditCard,      label: 'Accounts'  },
+  { to: '/transfer',     icon: ArrowRightLeft,  label: 'Transfer'  },
+  { to: '/transactions', icon: History,         label: 'History'   },
 ]
 
 const adminNav = [

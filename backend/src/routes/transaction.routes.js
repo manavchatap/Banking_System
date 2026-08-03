@@ -10,6 +10,9 @@ transactionRoutes.post("/", authMiddleware.authMiddleware, transactionController
 // POST /transactions/system/initial-funds — system user seeds funds
 transactionRoutes.post("/system/initial-funds", authMiddleware.authSystemUserMiddleware, transactionController.createInitialFundsTransaction)
 
+// GET /transactions/history — logged-in user: their debit/credit history
+transactionRoutes.get("/history", authMiddleware.authMiddleware, transactionController.getTransactionHistory)
+
 // GET /transactions/system/all — system user: all initial-funds transactions
 transactionRoutes.get("/system/all", authMiddleware.authSystemUserMiddleware, transactionController.getAllInitialFundsTransactions)
 
