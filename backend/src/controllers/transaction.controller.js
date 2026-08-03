@@ -1,6 +1,8 @@
 const transactionModel = require("../models/transaction.model")
 const ledgerModel = require("../models/ledger.model")
 const accountModel = require("../models/account.model")
+const userModel = require("../models/user.model")
+const transporter = require("../config/mail")
 const mongoose = require("mongoose")
 // create new transaction for a user, 10 steps transfer flow :
 
@@ -136,9 +138,30 @@ async function createTransaction (req,res) {
         })
     }
 
-        // 10.send email notification to both sender and receiver (this can be done using a message queue like RabbitMQ or Kafka, but for simplicity, we will just log the email notification here)
-        console.log(`Email notification sent to ${fromUserAccount.user} for debit of ${amount} from account ${fromUserAccount._id}`)
-        console.log(`Email notification sent to ${toUserAccount.user} for credit of ${amount} to account ${toAccount}`)
+        // 10. send email notification to both sender and receiver (fire and forget)
+        const senderUser = await userModel.findById(fromUserAccount.user).select("email name")
+        const receiverUser = await userModel.findById(toUserAccount.user).select("email name")
+
+        const fmt = (n) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(n)
+        const date = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
+
+        if (senderUser?.email) {
+            transporter.sendMail({
+                from    : process.env.EMAIL_USER,
+                to      : senderUser.email,
+                subject : "MyBank — Debit Alert",
+                text    : `Dear ${senderUser.name},\n\nYour account has been debited with ${fmt(amount)} on ${date}.\n\nAccount: ···${fromUserAccount._id.toString().slice(-8).toUpperCase()}\nAmount Debited: ${fmt(amount)}\n\nIf you did not initiate this transaction, please contact us immediately.\n\nThank you,\nMyBank`
+            }).catch(err => console.error("Debit email failed:", err.message))
+        }
+
+        if (receiverUser?.email) {
+            transporter.sendMail({
+                from    : process.env.EMAIL_USER,
+                to      : receiverUser.email,
+                subject : "MyBank — Credit Alert",
+                text    : `Dear ${receiverUser.name},\n\nYour account has been credited with ${fmt(amount)} on ${date}.\n\nAccount: ···${toUserAccount._id.toString().slice(-8).toUpperCase()}\nAmount Credited: ${fmt(amount)}\n\nThank you for banking with MyBank.`
+            }).catch(err => console.error("Credit email failed:", err.message))
+        }
 
 }
 
@@ -216,6 +239,19 @@ async function createInitialFundsTransaction (req,res) {
 
     await session.commitTransaction()
         session.endSession()
+
+    // Send credit notification email to recipient (fire and forget)
+    const recipientUser = await userModel.findById(toUserAccount.user).select("email name")
+    if (recipientUser?.email) {
+        const fmt = (n) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(n)
+        const date = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
+        transporter.sendMail({
+            from    : process.env.EMAIL_USER,
+            to      : recipientUser.email,
+            subject : "MyBank — Account Funded",
+            text    : `Dear ${recipientUser.name},\n\nYour MyBank account has been credited with ${fmt(amount)} on ${date}.\n\nAccount: ···${toUserAccount._id.toString().slice(-8).toUpperCase()}\nAmount Credited: ${fmt(amount)}\n\nThank you for banking with MyBank.`
+        }).catch(err => console.error("Funding email failed:", err.message))
+    }
 
     return res.status(201).json({
         message : "Initial funds transaction completed successfully",
