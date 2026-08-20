@@ -141,7 +141,7 @@ export default function AdminDashboard() {
                 <ShieldCheck size={15} className={styles.sysStripIcon} />
                 <span className={styles.sysStripLabel}>System Account</span>
                 <code className={styles.sysStripId}>
-                  ···{sysAccount._id.slice(-12).toUpperCase()}
+                  {sysAccount._id}
                 </code>
               </div>
               <Badge label={sysAccount.status} />
@@ -214,7 +214,7 @@ export default function AdminDashboard() {
                         </td>
                         <td>
                           <code className={styles.accountCode}>
-                            ···{acc._id.slice(-10).toUpperCase()}
+                            {acc._id}
                           </code>
                         </td>
                         <td><Badge label={acc.status} /></td>
@@ -302,7 +302,7 @@ export default function AdminDashboard() {
                         </td>
                         <td>
                           <code className={styles.accountCode}>
-                            ···{tx.toAccount?._id?.slice(-10).toUpperCase() ?? '—'}
+                            {tx.toAccount?._id ?? '—'}
                           </code>
                         </td>
                         <td><span className={styles.balance}>{formatINR(tx.amount)}</span></td>
