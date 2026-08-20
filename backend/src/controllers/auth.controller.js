@@ -82,7 +82,7 @@ async function userLoginController (req,res) {
         httpOnly : true,
         sameSite : process.env.NODE_ENV === "production" ? "none" : "lax",
         secure   : process.env.NODE_ENV === "production",
-        maxAge   : 3 * 24 * 60 * 60 * 1000  // 3 days in ms
+        maxAge   : 3 * 24 * 60 * 60 * 1000
     })
 
     // Fetch systemUser flag explicitly
@@ -92,7 +92,8 @@ async function userLoginController (req,res) {
         _id        : user._id,
         email      : user.email,
         name       : user.name,
-        systemUser : fullUser.systemUser || false
+        systemUser : fullUser.systemUser || false,
+        token      : token   // also send in body for cross-device compatibility
     })
 }
 
@@ -208,7 +209,7 @@ async function resetPasswordController(req, res) {
 
     // Delete token immediately — single use, gone after this
     await redis.del(`reset:${resetToken}`)
-
+ 
     res.status(200).json({ message: "Password reset successfully. You can now log in." })
 }
 
