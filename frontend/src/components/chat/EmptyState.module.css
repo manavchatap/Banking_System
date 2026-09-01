@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 32px 20px;
+  text-align: center;
+  user-select: none;
+}
+
+.iconWrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.35);
+}
+
+.heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.subtext {
+  font-size: 0.8rem;
+  color: #64748b;
+  max-width: 270px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 320px;
+}
+
+.chip {
+  padding: 6px 13px;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  color: #94a3b8;
+  background: rgba(30, 64, 175, 0.08);
+  border: 1px solid rgba(30, 64, 175, 0.2);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  font-family: inherit;
+}
+
+.chip:hover {
+  border-color: #1e40af;
+  color: #93c5fd;
+  background: rgba(30, 64, 175, 0.15);
+}

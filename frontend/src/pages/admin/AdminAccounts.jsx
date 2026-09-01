@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { RefreshCw, Zap, Search, CheckCircle, UserPlus } from 'lucide-react'
+import { RefreshCw, Zap, Search, CheckCircle, UserPlus, CreditCard } from 'lucide-react'
 import api from '../../api/axios'
 import Card, { CardHeader, CardTitle } from '../../components/ui/Card'
 import Badge from '../../components/ui/Badge'
@@ -18,6 +18,91 @@ function formatINR(n) {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency', currency: 'INR', maximumFractionDigits: 2,
   }).format(n)
+}
+
+/* ── Create account panel ───────────────────────────────────── */
+function CreateAccountPanel({ onDone }) {
+  const [users, setUsers]       = useState([])
+  const [userId, setUserId]     = useState('')
+  const [loading, setLoading]   = useState(false)
+  const [fetching, setFetching] = useState(true)
+  const [created, setCreated]   = useState(null)
+
+  useEffect(() => {
+    api.get('/auth/users')
+      .then(({ data }) => setUsers(data.users))
+      .catch(() => showToast('Failed to load customers', 'error'))
+      .finally(() => setFetching(false))
+  }, [])
+
+  useEffect(() => {
+    if (!created) return
+    const t = setTimeout(() => setCreated(null), 6000)
+    return () => clearTimeout(t)
+  }, [created])
+
+  const handleCreate = async () => {
+    if (!userId) { showToast('Select a customer first', 'warning'); return }
+    setLoading(true)
+    try {
+      const { data } = await api.post(`/accounts/admin/${userId}`)
+      setCreated(data.account)
+      setUserId('')
+      showToast('Bank account created successfully!', 'success')
+      onDone()
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to create account', 'error')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <Card>
+      <CardHeader><CardTitle>Create Bank Account</CardTitle></CardHeader>
+      <div className={styles.panelBody}>
+        <p className={styles.panelNote}>
+          Creates a bank account for a registered customer. The customer must
+          already be registered before an account can be opened for them.
+        </p>
+
+        {fetching ? (
+          <Spinner center />
+        ) : (
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>Select Customer</label>
+            <select
+              className={styles.selectInput}
+              value={userId}
+              onChange={e => setUserId(e.target.value)}
+            >
+              <option value="">— Choose a registered customer —</option>
+              {users.map(u => (
+                <option key={u._id} value={u._id}>
+                  {u.name} ({u.email})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {created && (
+          <div className={styles.successBox}>
+            <CheckCircle size={16} />
+            <div>
+              <strong>Bank account created successfully</strong>
+              <p>Account ID: <code>{created._id}</code></p>
+              <p>Status: {created.status} · Currency: {created.currency}</p>
+            </div>
+          </div>
+        )}
+
+        <Button fullWidth onClick={handleCreate} loading={loading} disabled={fetching}>
+          <CreditCard size={14} /> Create Account
+        </Button>
+      </div>
+    </Card>
+  )
 }
 
 /* ── Register customer panel ─────────────────────────────────── */
@@ -66,8 +151,8 @@ function RegisterCustomerPanel({ onDone }) {
       <CardHeader><CardTitle>Register New Customer</CardTitle></CardHeader>
       <div className={styles.panelBody}>
         <p className={styles.panelNote}>
-          Creates a new customer login. After registering, the customer can log in
-          and open their bank account from their dashboard.
+          Creates a new customer login. After registering, use the
+          "Create Account" panel to open a bank account for them.
         </p>
 
         <Input
@@ -257,6 +342,14 @@ export default function AdminAccounts() {
           </Button>
           <Button
             size="sm"
+            variant={activePanel === 'create-account' ? 'secondary' : 'primary'}
+            onClick={() => togglePanel('create-account')}
+          >
+            <CreditCard size={14} />
+            {activePanel === 'create-account' ? 'Close' : 'Create Account'}
+          </Button>
+          <Button
+            size="sm"
             variant={activePanel === 'fund' ? 'secondary' : 'primary'}
             onClick={() => togglePanel('fund')}
           >
@@ -289,6 +382,9 @@ export default function AdminAccounts() {
       {activePanel === 'register' && (
         <RegisterCustomerPanel onDone={() => { fetchSysAccount(true); setActivePanel(null) }} />
       )}
+      {activePanel === 'create-account' && (
+        <CreateAccountPanel onDone={() => { fetchSysAccount(true); setActivePanel(null) }} />
+      )}
       {activePanel === 'fund' && (
         <FundPanel onFunded={() => fetchSysAccount(true)} />
       )}
@@ -306,18 +402,18 @@ export default function AdminAccounts() {
               },
               {
                 step: '2',
-                title: 'Customer opens their bank account',
-                desc: 'The customer logs in and creates their account from their dashboard.',
+                title: 'Create a bank account for the customer',
+                desc: 'Click "Create Account", select the customer from the list, and open their bank account.',
               },
               {
                 step: '3',
-                title: 'Customer shares their Account ID',
-                desc: 'The Account ID is shown on the customer\'s Accounts page.',
+                title: 'Add initial funds',
+                desc: 'Click "Add Funds", paste the Account ID and enter the opening balance amount.',
               },
               {
                 step: '4',
-                title: 'Add initial funds',
-                desc: 'Click "Add Funds", paste the Account ID and enter the opening balance amount.',
+                title: 'Customer logs in',
+                desc: 'The customer logs in and immediately sees their account, balance, and can start transacting.',
               },
             ].map(({ step, title, desc }) => (
               <div key={step} className={styles.howStep}>

@@ -1,0 +1,200 @@
+/* ─── Floating action button ─────────────────────────── */
+.fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 201;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  color: #fff;
+  box-shadow:
+    0 4px 16px rgba(30, 64, 175, 0.5),
+    0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.fab:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 6px 24px rgba(30, 64, 175, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.fab:active { transform: scale(0.95); }
+.fabOpen {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af);
+}
+
+/* Unread badge */
+.badge {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success, #166534);
+  border: 2px solid #fff;
+}
+
+/* ─── Backdrop (mobile only) ─────────────────────────── */
+.backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 199;
+  backdrop-filter: blur(2px);
+}
+@media (max-width: 600px) {
+  .backdrop { display: block; }
+}
+
+/* ─── Chat panel ─────────────────────────────────────── */
+.panel {
+  position: fixed;
+  bottom: 92px;
+  right: 28px;
+  z-index: 200;
+  width: 375px;
+  height: 560px;
+  max-height: calc(100vh - 116px);
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  box-shadow:
+    0 24px 60px rgba(15, 23, 42, 0.15),
+    0 8px 20px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  /* Hidden state */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(14px) scale(0.97);
+  transform-origin: bottom right;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.panelOpen {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* ─── Header ─────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.headerAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.4);
+}
+.headerName {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.2;
+}
+.headerSub {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  color: #64748b;
+  margin-top: 1px;
+}
+.onlineDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success, #166534);
+  background: #22c55e;
+  flex-shrink: 0;
+}
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.iconBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.iconBtn:hover:not(:disabled) {
+  background: #f1f5f9;
+  color: #475569;
+}
+.iconBtn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ─── Messages area ──────────────────────────────────── */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+}
+.messageList {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 14px 13px;
+}
+
+/* Scrollbar */
+.messages::-webkit-scrollbar { width: 4px; }
+.messages::-webkit-scrollbar-track { background: transparent; }
+.messages::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 3px; }
+.messages::-webkit-scrollbar-thumb:hover { background: #1e40af; }
+
+/* ─── Mobile: full-width bottom sheet ───────────────── */
+@media (max-width: 600px) {
+  .panel {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 88vh;
+    max-height: 88vh;
+    border-radius: 18px 18px 0 0;
+    transform-origin: bottom center;
+  }
+  .fab {
+    bottom: 20px;
+    right: 20px;
+  }
+}

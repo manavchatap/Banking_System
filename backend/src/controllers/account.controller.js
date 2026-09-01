@@ -55,6 +55,35 @@ async function getAccountBalanceController(req,res){
     })
 }
 
+// SYSTEM USER — create a bank account for a specific customer
+async function adminCreateAccountController(req, res) {
+    const { userId } = req.params
+
+    if (!userId) {
+        return res.status(400).json({ message: "userId is required" })
+    }
+
+    const userModel = require("../models/user.model")
+    const user = await userModel.findById(userId).select("+systemUser")
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" })
+    }
+
+    if (user.systemUser) {
+        return res.status(400).json({ message: "Cannot create a bank account for a system user" })
+    }
+
+    const existing = await accountModel.findOne({ user: userId })
+    if (existing) {
+        return res.status(409).json({ message: "This customer already has a bank account" })
+    }
+
+    const account = await accountModel.create({ user: userId })
+
+    res.status(201).json({ account })
+}
+
 // SYSTEM USER — update account status (ACTIVE / FROZEN / CLOSED)
 async function updateAccountStatusController(req, res) {
     const { accountId } = req.params
@@ -83,6 +112,7 @@ async function updateAccountStatusController(req, res) {
 
 module.exports = {
     createAccountController,
+    adminCreateAccountController,
     getUserAccountsController,
     getAccountBalanceController,
     updateAccountStatusController,

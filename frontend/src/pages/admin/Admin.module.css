@@ -621,3 +621,29 @@
 @media (max-width: 400px) {
   .statsGrid { grid-template-columns: 1fr; }
 }
+
+/* ── Create Account panel ── */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.selectInput {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  color: var(--gray-800);
+  background: var(--white);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+}
+
+.selectInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}

@@ -209,6 +209,18 @@ async function resetPasswordController(req, res) {
     // Delete token immediately — single use, gone after this
     await redis.del(`reset:${resetToken}`)
 
+    // Send password reset confirmation email
+    try {
+        await transporter.sendMail({
+            from    : process.env.EMAIL_USER,
+            to      : user.email,
+            subject : "MyBank — Password Changed Successfully",
+            text    : `Hi ${user.name},\n\nYour MyBank password has been changed successfully.\n\nIf you did not make this change, please contact your bank administrator immediately.\n\nDate & Time: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}\n\n— MyBank Security Team`
+        })
+    } catch (mailErr) {
+        console.error("Password reset confirmation email failed:", mailErr.message)
+    }
+
     res.status(200).json({ message: "Password reset successfully. You can now log in." })
 }
 

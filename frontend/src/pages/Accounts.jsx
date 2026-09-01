@@ -2,10 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   CreditCard,
-  Plus,
   RefreshCw,
   ArrowRightLeft,
-  Eye,
 } from 'lucide-react'
 import api from '../api/axios'
 import Card, { CardHeader, CardTitle } from '../components/ui/Card'
@@ -36,7 +34,6 @@ export default function Accounts() {
   const [accounts, setAccounts] = useState([])
   const [balances, setBalances] = useState({})
   const [loading, setLoading] = useState(true)
-  const [creating, setCreating] = useState(false)
   const [selectedAccount, setSelectedAccount] = useState(null)
 
   const fetchAll = useCallback(async () => {
@@ -63,19 +60,6 @@ export default function Accounts() {
     fetchAll()
   }, [fetchAll])
 
-  const handleCreate = async () => {
-    setCreating(true)
-    try {
-      await api.post('/accounts')
-      showToast('Account created successfully!', 'success')
-      await fetchAll()
-    } catch (err) {
-      showToast(err.response?.data?.message || 'Failed to create account', 'error')
-    } finally {
-      setCreating(false)
-    }
-  }
-
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -88,12 +72,6 @@ export default function Accounts() {
             <RefreshCw size={15} />
             Refresh
           </Button>
-          {accounts.length === 0 && (
-            <Button size="sm" onClick={handleCreate} loading={creating}>
-              <Plus size={15} />
-              Open Account
-            </Button>
-          )}
         </div>
       </div>
 
@@ -103,12 +81,8 @@ export default function Accounts() {
         ) : accounts.length === 0 ? (
           <div className={styles.empty}>
             <CreditCard size={40} />
-            <h3>No accounts found</h3>
-            <p>Open your first account to start banking</p>
-            <Button onClick={handleCreate} loading={creating}>
-              <Plus size={15} />
-              Create Account
-            </Button>
+            <h3>Account Setup Pending</h3>
+            <p>Your bank account is being set up by the administrator. You'll see your account details here once it's ready.</p>
           </div>
         ) : (
           <div className={styles.tableWrap}>

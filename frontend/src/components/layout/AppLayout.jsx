@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import Sidebar from './Sidebar'
 import ToastContainer from '../ui/ToastContainer'
+import ManuWidget from '../chat/ManuWidget'
 import styles from './AppLayout.module.css'
 
 export default function AppLayout() {
@@ -48,6 +49,7 @@ export default function AppLayout() {
       </div>
 
       <ToastContainer />
+      <ManuWidget />
     </div>
   )
 }

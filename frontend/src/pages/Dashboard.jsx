@@ -4,7 +4,6 @@ import {
   Wallet,
   ArrowRightLeft,
   RefreshCw,
-  Plus,
   CreditCard,
   ChevronRight,
   Shield,
@@ -98,7 +97,6 @@ export default function Dashboard() {
   const [balances, setBalances]           = useState({})
   const [loadingAccounts, setLoading]     = useState(true)
   const [refreshing, setRefreshing]       = useState(false)
-  const [creatingAccount, setCreating]    = useState(false)
 
   const fetchAccounts = useCallback(async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true)
@@ -129,19 +127,6 @@ export default function Dashboard() {
   const account        = accounts[0] ?? null
   const isLoading      = loadingAccounts || refreshing
 
-  const handleCreateAccount = async () => {
-    setCreating(true)
-    try {
-      await api.post('/accounts')
-      showToast('Account opened successfully!', 'success')
-      await fetchAccounts(true)
-    } catch (err) {
-      showToast(err.response?.data?.message || 'Failed to create account', 'error')
-    } finally {
-      setCreating(false)
-    }
-  }
-
   return (
     <div className={styles.page}>
 
@@ -156,12 +141,6 @@ export default function Dashboard() {
             <RefreshCw size={14} />
             Refresh
           </Button>
-          {accounts.length === 0 && !loadingAccounts && (
-            <Button size="sm" onClick={handleCreateAccount} loading={creatingAccount}>
-              <Plus size={14} />
-              Open Account
-            </Button>
-          )}
         </div>
       </div>
 
@@ -238,11 +217,8 @@ export default function Dashboard() {
             ) : !account ? (
               <div className={styles.empty}>
                 <Wallet size={36} className={styles.emptyIcon} />
-                <h3>No account yet</h3>
-                <p>Open your first account to start banking</p>
-                <Button onClick={handleCreateAccount} loading={creatingAccount} size="sm">
-                  <Plus size={14} /> Open Account
-                </Button>
+                <h3>Account Setup Pending</h3>
+                <p>Your bank account is being set up by the bank administrator. You'll see your account details here once it's ready.</p>
               </div>
             ) : (
               <div className={styles.accountCard}>
