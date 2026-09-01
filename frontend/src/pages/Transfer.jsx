@@ -223,7 +223,6 @@ export default function Transfer() {
                     value={form.toAccount}
                     onChange={handleChange}
                     error={errors.toAccount}
-                    helper="The full MongoDB ObjectId of the recipient's account"
                   />
                 </div>
 
