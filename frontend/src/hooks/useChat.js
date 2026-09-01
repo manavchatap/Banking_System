@@ -2,9 +2,11 @@ import { useState, useRef, useCallback } from "react";
 
 const SESSION_ID = "session_" + Math.random().toString(36).slice(2);
 
-// In production VITE_API_URL = https://your-render-backend.onrender.com/api
-// In dev the Vite proxy handles /api → localhost:3000
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+// VITE_API_URL is the backend root (e.g. https://banking-api-9491.onrender.com)
+// In dev, /api is handled by the Vite proxy — no base URL needed
+const BACKEND_URL = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL.replace(/\/api$/, "") // strip /api if present
+  : "";
 
 export function useChat() {
   const [messages, setMessages] = useState([]);
@@ -32,7 +34,7 @@ export function useChat() {
     abortRef.current = controller;
 
     try {
-      const response = await fetch(`${API_BASE}/chat`, {
+      const response = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, sessionId: SESSION_ID }),
@@ -99,7 +101,7 @@ export function useChat() {
 
   const clearChat = useCallback(async () => {
     try {
-      await fetch(`${API_BASE}/session`, {
+      await fetch(`${BACKEND_URL}/session`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: SESSION_ID }),
