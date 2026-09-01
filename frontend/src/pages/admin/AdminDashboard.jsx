@@ -78,10 +78,12 @@ export default function AdminDashboard() {
   const filteredAccounts = search.trim()
     ? accounts.filter(a => {
         const q = search.toLowerCase().replace(/^·+/, '').trim() // strip leading ··· dots
+        const displayId = a._id?.slice(-10).toLowerCase()        // what's shown in the table
         return (
           a.user?.name?.toLowerCase().includes(q) ||
           a.user?.email?.toLowerCase().includes(q) ||
-          a._id?.toLowerCase().includes(q)          // match any part of account ID
+          a._id?.toLowerCase().includes(q) ||   // match any part of full ID
+          displayId?.includes(q)                 // match the short display ID shown in table
         )
       })
     : accounts
