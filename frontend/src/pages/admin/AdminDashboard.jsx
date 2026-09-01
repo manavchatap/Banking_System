@@ -76,10 +76,14 @@ export default function AdminDashboard() {
   const totalFunded = transactions.reduce((s, t) => s + (t.amount ?? 0), 0)
 
   const filteredAccounts = search.trim()
-    ? accounts.filter(a =>
-        a.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        a.user?.email?.toLowerCase().includes(search.toLowerCase())
-      )
+    ? accounts.filter(a => {
+        const q = search.toLowerCase().replace(/^·+/, '').trim() // strip leading ··· dots
+        return (
+          a.user?.name?.toLowerCase().includes(q) ||
+          a.user?.email?.toLowerCase().includes(q) ||
+          a._id?.toLowerCase().includes(q)          // match any part of account ID
+        )
+      })
     : accounts
 
   const handleStatusChange = async (accountId, newStatus) => {
