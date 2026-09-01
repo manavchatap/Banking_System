@@ -77,13 +77,14 @@ export default function AdminDashboard() {
 
   const filteredAccounts = search.trim()
     ? accounts.filter(a => {
-        const q = search.toLowerCase().replace(/^·+/, '').trim() // strip leading ··· dots
-        const displayId = a._id?.slice(-10).toLowerCase()        // what's shown in the table
+        // Strip any leading dots/middledots and spaces from pasted values like ···A14D6115
+        const q = search.toLowerCase().replace(/^[\s·.\u00B7]+/, '').trim()
+        const displayId = a._id?.slice(-10).toLowerCase()
         return (
           a.user?.name?.toLowerCase().includes(q) ||
           a.user?.email?.toLowerCase().includes(q) ||
-          a._id?.toLowerCase().includes(q) ||   // match any part of full ID
-          displayId?.includes(q)                 // match the short display ID shown in table
+          a._id?.toLowerCase().includes(q) ||
+          displayId?.includes(q)
         )
       })
     : accounts
@@ -170,7 +171,7 @@ export default function AdminDashboard() {
                 <input
                   className={styles.searchInput}
                   type="text"
-                  placeholder="Search customers by name or email…"
+                  placeholder="Search by name, email or account ID…"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   aria-label="Search customers"
