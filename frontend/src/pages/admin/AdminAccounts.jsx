@@ -367,7 +367,7 @@ export default function AdminAccounts() {
               <p className={styles.sysAccountLabel}>System Account</p>
               {sysAccount ? (
                 <p className={styles.sysAccountId}>
-                  ···{sysAccount._id.slice(-12).toUpperCase()}
+                  {sysAccount._id}
                 </p>
               ) : (
                 <p className={styles.noAccountText}>No system account found</p>

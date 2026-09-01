@@ -41,7 +41,7 @@ function formatDate(iso) {
 }
 
 function shortId(id) {
-  return '···' + id.slice(-8).toUpperCase()
+  return id // show full ID to the user
 }
 
 function getGreeting() {
@@ -154,7 +154,7 @@ export default function Dashboard() {
           <div className={styles.balanceMeta}>
             {account && <Badge label={account.status} />}
             <span className={styles.balanceStatus}>
-              {account ? `INR · ${shortId(account._id)}` : 'No account yet'}
+              {account ? `INR · ${account._id}` : 'No account yet'}
             </span>
           </div>
         </div>
