@@ -457,7 +457,6 @@
 @media (max-width: 960px) {
   .twoCol { grid-template-columns: 1fr; }
   .rightCol { order: -1; }
-  .rightCol .leftCol { flex-direction: row; flex-wrap: wrap; }
 }
 
 @media (max-width: 700px) {

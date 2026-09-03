@@ -647,3 +647,29 @@
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-light);
 }
+
+@media (max-width: 480px) {
+  .title { font-size: 1.25rem; }
+  .page { gap: 18px; }
+  .statsGrid { grid-template-columns: 1fr 1fr; }
+
+  /* Hide less important table columns, keep Customer + Balance + Actions */
+  .table th:nth-child(2),
+  .table td:nth-child(2),
+  .table th:nth-child(5),
+  .table td:nth-child(5) { display: none; }
+
+  .table th, .table td { padding: 10px 10px; font-size: 0.8rem; }
+  .customerName { font-size: 0.82rem; }
+  .customerEmail { font-size: 0.7rem; }
+  .customerAvatar { width: 28px; height: 28px; font-size: 0.65rem; }
+
+  .actionBtns { flex-direction: column; gap: 4px; }
+  .actionBtns button { width: 100%; justify-content: center; }
+
+  .headerActions { gap: 6px; }
+  .headerActions button { font-size: 0.78rem; padding: 6px 10px; }
+
+  .panelBody { gap: 14px; }
+  .sysStrip { padding: 10px 14px; }
+}

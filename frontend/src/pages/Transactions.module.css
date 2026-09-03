@@ -193,3 +193,21 @@
   .summary { grid-template-columns: 1fr 1fr; }
   .txRow { padding: 14px 16px; }
 }
+
+@media (max-width: 480px) {
+  .summary { grid-template-columns: 1fr; }
+  .summaryCard { padding: 16px 18px; }
+  .summaryValue { font-size: 1.2rem; }
+
+  .filterRow { width: 100%; }
+  .filterBtn { flex: 1; justify-content: center; padding: 7px 8px; font-size: 0.775rem; }
+
+  .txRow { padding: 12px 14px; gap: 10px; }
+  .txIcon { width: 34px; height: 34px; flex-shrink: 0; }
+  .txType { font-size: 0.84rem; }
+  .txAmount { font-size: 0.9375rem; }
+  .txId { display: none; }
+
+  .title { font-size: 1.25rem; }
+  .page { gap: 18px; }
+}

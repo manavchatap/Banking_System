@@ -194,3 +194,25 @@
   .summary { grid-template-columns: 1fr; }
   .table th, .table td { padding: 12px 12px; }
 }
+
+@media (max-width: 480px) {
+  .title { font-size: 1.25rem; }
+  .page { gap: 20px; }
+
+  /* Hide Currency and Created columns — keep Account ID, Status, Balance, Actions */
+  .table th:nth-child(3),
+  .table td:nth-child(3),
+  .table th:nth-child(5),
+  .table td:nth-child(5) { display: none; }
+
+  .table th, .table td { padding: 12px 10px; }
+  .accountIdFull { display: none; }
+  .accountIdShort { display: block; }
+
+  .summary { grid-template-columns: 1fr; }
+  .summaryCard { padding: 16px 18px; }
+  .summaryValue { font-size: 1.15rem; }
+
+  .rowActions { flex-direction: column; }
+  .rowActions button { width: 100%; justify-content: center; }
+}

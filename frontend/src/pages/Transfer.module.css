@@ -387,3 +387,27 @@
   .confirmActions { grid-template-columns: 1fr; }
   .header { flex-direction: column; }
 }
+
+@media (max-width: 480px) {
+  .title { font-size: 1.25rem; }
+  .page { gap: 20px; }
+
+  .fromCard { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .fromId { font-size: 0.84rem; }
+
+  .confirmRow { flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px 14px; }
+  .confirmMono { font-size: 0.78rem; word-break: break-all; }
+  .confirmAmount span:last-child { font-size: 1rem; }
+
+  .processing { padding: 32px 16px; }
+  .resultWrap { padding: 32px 16px; }
+  .resultWrap h3 { font-size: 1.15rem; }
+
+  .txDetails { max-width: 100%; }
+  .txRow { flex-direction: column; align-items: flex-start; gap: 3px; padding: 10px 14px; }
+  .txRow > span:first-child { font-size: 0.72rem; color: var(--gray-400); }
+
+  .doneActions { max-width: 100%; }
+  .idempotencyValue { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .noAccount { padding: 48px 16px; }
+}
