@@ -9,7 +9,27 @@ const chatRoutes = require ("./routes/chat.routes")
 const app = express();
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: function(origin, callback) {
+        // Allow requests with no origin (mobile apps, curl, Postman)
+        if (!origin) return callback(null, true)
+
+        const allowed = [
+            process.env.FRONTEND_URL,
+            "http://localhost:5173",
+        ].filter(Boolean)
+
+        // Allow any Vercel preview deployment for this project
+        const isVercelPreview = origin.match(/https:\/\/banking-system.*\.vercel\.app$/)
+
+        // Allow any localhost port for local development
+        const isLocalhost = origin.match(/^http:\/\/localhost:\d+$/)
+
+        if (allowed.includes(origin) || isVercelPreview || isLocalhost) {
+            callback(null, true)
+        } else {
+            callback(new Error(`CORS: origin ${origin} not allowed`))
+        }
+    },
     credentials: true
 }))
 app.use(express.json())
